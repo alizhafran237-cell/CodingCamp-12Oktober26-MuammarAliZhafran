@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Life Dashboard</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+
+    <!-- ─── HEADER ─────────────────────────────────────────────── -->
+    <header class="header">
+      <div class="header__left">
+        <h1 class="app-title">🗂️ Life Dashboard</h1>
+      </div>
+      <div class="header__right">
+        <button id="themeToggleBtn" class="btn btn--icon" title="Toggle light/dark mode">🌙</button>
+      </div>
+    </header>
+
+    <!-- ─── MAIN CONTENT ─────────────────────────────────────────── -->
+    <main class="main-grid">
+
+      <!-- ── Card 1: Date, Time & Greeting ───────────────────────── -->
+      <section class="card card--wide" id="datetimeCard">
+        <div class="datetime-block">
+          <p id="currentDate" class="date-text"></p>
+          <p id="currentTime" class="time-text"></p>
+        </div>
+        <div class="greeting-block">
+          <p id="greetingText" class="greeting-text"></p>
+
+          <!-- Challenge 2: Custom name -->
+          <div class="name-row">
+            <input
+              type="text"
+              id="nameInput"
+              class="input"
+              placeholder="Enter your name…"
+              maxlength="30"
+              aria-label="Your name"
+            />
+            <button id="saveNameBtn" class="btn btn--primary btn--sm">Save</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Card 2: Focus Timer ──────────────────────────────────── -->
+      <section class="card" id="timerCard">
+        <h2 class="card__title">⏱️ Focus Timer</h2>
+        <p class="card__subtitle">Stay focused for 25 minutes</p>
+
+        <div class="timer-display" id="timerDisplay" aria-live="polite">25:00</div>
+
+        <div class="timer-controls">
+          <button id="timerStartBtn" class="btn btn--success">▶ Start</button>
+          <button id="timerStopBtn"  class="btn btn--warning" disabled>⏸ Stop</button>
+          <button id="timerResetBtn" class="btn btn--danger">↺ Reset</button>
+        </div>
+
+        <p id="timerStatus" class="timer-status">Ready to focus!</p>
+      </section>
+
+      <!-- ── Card 3: To-Do List ───────────────────────────────────── -->
+      <section class="card card--wide" id="todoCard">
+        <h2 class="card__title">✅ To-Do List</h2>
+
+        <!-- Add task row -->
+        <div class="todo-add-row">
+          <input
+            type="text"
+            id="taskInput"
+            class="input"
+            placeholder="Add a new task…"
+            maxlength="120"
+            aria-label="New task"
+          />
+          <button id="addTaskBtn" class="btn btn--primary">+ Add</button>
+        </div>
+
+        <!-- Duplicate warning -->
+        <p id="duplicateWarning" class="warning hidden" role="alert">
+          ⚠️ That task already exists!
+        </p>
+
+        <!-- Filter tabs -->
+        <div class="todo-filters" role="tablist">
+          <button class="filter-btn active" data-filter="all"  role="tab" aria-selected="true">All</button>
+          <button class="filter-btn"        data-filter="active" role="tab" aria-selected="false">Active</button>
+          <button class="filter-btn"        data-filter="done" role="tab" aria-selected="false">Done</button>
+        </div>
+
+        <!-- Task list -->
+        <ul id="taskList" class="task-list" aria-label="Task list"></ul>
+
+        <p id="emptyMessage" class="empty-message hidden">No tasks here. Add one above!</p>
+        <p id="taskCount" class="task-count"></p>
+      </section>
+
+      <!-- ── Card 4: Quick Links ──────────────────────────────────── -->
+      <section class="card" id="linksCard">
+        <h2 class="card__title">🔗 Quick Links</h2>
+
+        <!-- Add link form -->
+        <div class="link-add-form">
+          <input
+            type="text"
+            id="linkNameInput"
+            class="input"
+            placeholder="Link name"
+            maxlength="30"
+            aria-label="Link name"
+          />
+          <input
+            type="url"
+            id="linkUrlInput"
+            class="input"
+            placeholder="https://example.com"
+            aria-label="Link URL"
+          />
+          <button id="addLinkBtn" class="btn btn--primary">+ Add Link</button>
+        </div>
+
+        <p id="linkError" class="warning hidden" role="alert">Please enter a name and a valid URL.</p>
+
+        <!-- Links grid -->
+        <div id="linksList" class="links-grid"></div>
+        <p id="emptyLinks" class="empty-message hidden">No quick links yet. Add one above!</p>
+      </section>
+
+    </main>
+
+    <!-- ─── EDIT TASK MODAL ───────────────────────────────────────── -->
+    <div id="editModal" class="modal hidden" role="dialog" aria-modal="true" aria-labelledby="editModalTitle">
+      <div class="modal__backdrop"></div>
+      <div class="modal__box">
+        <h3 id="editModalTitle" class="modal__title">Edit Task</h3>
+        <input
+          type="text"
+          id="editTaskInput"
+          class="input"
+          maxlength="120"
+          aria-label="Edit task text"
+        />
+        <p id="editDuplicateWarning" class="warning hidden" role="alert">⚠️ That task already exists!</p>
+        <div class="modal__actions">
+          <button id="editSaveBtn"   class="btn btn--primary">Save</button>
+          <button id="editCancelBtn" class="btn btn--ghost">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/script.js"></script>
+  </body>
+</html>

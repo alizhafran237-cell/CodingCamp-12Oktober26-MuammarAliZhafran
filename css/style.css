@@ -1,0 +1,595 @@
+/* ================================================================
+   Life Dashboard – style.css
+   One file, zero frameworks, full responsiveness.
+   ================================================================ */
+
+/* ── 1. CSS CUSTOM PROPERTIES (Design Tokens) ──────────────────── */
+:root {
+  /* Light theme (default) */
+  --bg-page:       #f0f4ff;
+  --bg-card:       #ffffff;
+  --bg-card-hover: #f7f9ff;
+  --bg-input:      #f4f6fb;
+  --bg-input-focus:#eef1fb;
+
+  --text-primary:  #1a1d2e;
+  --text-secondary:#5a607a;
+  --text-muted:    #9098b0;
+
+  --accent:        #4f6ef7;
+  --accent-hover:  #3b5be0;
+  --accent-light:  #e8ecff;
+
+  --success:       #22c55e;
+  --success-hover: #16a34a;
+  --success-light: #dcfce7;
+
+  --warning-color: #f59e0b;
+  --warning-hover: #d97706;
+  --warning-light: #fef3c7;
+
+  --danger:        #ef4444;
+  --danger-hover:  #dc2626;
+  --danger-light:  #fee2e2;
+
+  --border:        #e2e8f0;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.08), 0 1px 2px rgba(0,0,0,.04);
+  --shadow-md:     0 4px 12px rgba(0,0,0,.10), 0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:     0 10px 30px rgba(0,0,0,.12);
+
+  --radius-sm:     6px;
+  --radius-md:     12px;
+  --radius-lg:     18px;
+  --radius-pill:   999px;
+
+  --font:          'Segoe UI', system-ui, -apple-system, sans-serif;
+  --transition:    .2s ease;
+}
+
+/* Dark theme */
+[data-theme="dark"] {
+  --bg-page:       #0f1117;
+  --bg-card:       #1a1d2e;
+  --bg-card-hover: #20243a;
+  --bg-input:      #242840;
+  --bg-input-focus:#2a2f4e;
+
+  --text-primary:  #e8eaf6;
+  --text-secondary:#9098b0;
+  --text-muted:    #5a607a;
+
+  --accent:        #6b84ff;
+  --accent-hover:  #8097ff;
+  --accent-light:  #1c2145;
+
+  --success:       #4ade80;
+  --success-hover: #22c55e;
+  --success-light: #14381f;
+
+  --warning-color: #fbbf24;
+  --warning-hover: #f59e0b;
+  --warning-light: #3a2a00;
+
+  --danger:        #f87171;
+  --danger-hover:  #ef4444;
+  --danger-light:  #3d0f0f;
+
+  --border:        #2a2f4e;
+  --shadow-sm:     0 1px 3px rgba(0,0,0,.4);
+  --shadow-md:     0 4px 12px rgba(0,0,0,.5);
+  --shadow-lg:     0 10px 30px rgba(0,0,0,.6);
+}
+
+/* ── 2. RESET & BASE ────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font);
+  background-color: var(--bg-page);
+  color: var(--text-primary);
+  min-height: 100vh;
+  transition: background-color var(--transition), color var(--transition);
+  line-height: 1.6;
+}
+
+/* ── 3. HEADER ──────────────────────────────────────────────────── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 2rem;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.app-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -.3px;
+}
+
+/* ── 4. BUTTONS ─────────────────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: .35rem;
+  padding: .55rem 1.1rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-family: var(--font);
+  font-size: .9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), transform .1s ease, opacity var(--transition);
+  white-space: nowrap;
+  user-select: none;
+}
+
+.btn:active:not(:disabled) { transform: scale(.97); }
+.btn:disabled { opacity: .45; cursor: not-allowed; }
+
+.btn--primary { background: var(--accent);        color: #fff; }
+.btn--primary:hover:not(:disabled) { background: var(--accent-hover); }
+
+.btn--success { background: var(--success);       color: #fff; }
+.btn--success:hover:not(:disabled) { background: var(--success-hover); }
+
+.btn--warning { background: var(--warning-color); color: #fff; }
+.btn--warning:hover:not(:disabled) { background: var(--warning-hover); }
+
+.btn--danger  { background: var(--danger);        color: #fff; }
+.btn--danger:hover:not(:disabled)  { background: var(--danger-hover); }
+
+.btn--ghost {
+  background: transparent;
+  color: var(--text-secondary);
+  border: 1.5px solid var(--border);
+}
+.btn--ghost:hover:not(:disabled) { background: var(--bg-card-hover); }
+
+.btn--icon {
+  background: transparent;
+  font-size: 1.25rem;
+  padding: .4rem .6rem;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+}
+.btn--icon:hover { background: var(--bg-input); }
+
+.btn--sm { padding: .4rem .8rem; font-size: .82rem; }
+
+/* ── 5. INPUTS ──────────────────────────────────────────────────── */
+.input {
+  flex: 1;
+  padding: .6rem .85rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-input);
+  color: var(--text-primary);
+  font-family: var(--font);
+  font-size: .92rem;
+  transition: border-color var(--transition), background-color var(--transition), box-shadow var(--transition);
+  outline: none;
+  min-width: 0; /* prevent overflow in flex */
+}
+
+.input::placeholder { color: var(--text-muted); }
+
+.input:focus {
+  border-color: var(--accent);
+  background: var(--bg-input-focus);
+  box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* ── 6. MAIN GRID ───────────────────────────────────────────────── */
+.main-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+  padding: 1.75rem 2rem;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* ── 7. CARDS ───────────────────────────────────────────────────── */
+.card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  padding: 1.5rem;
+  border: 1px solid var(--border);
+  transition: box-shadow var(--transition), background-color var(--transition), border-color var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.card:hover { box-shadow: var(--shadow-md); }
+
+/* Span both columns */
+.card--wide { grid-column: span 2; }
+
+.card__title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.card__subtitle {
+  font-size: .85rem;
+  color: var(--text-secondary);
+  margin-top: -.6rem;
+}
+
+/* ── 8. DATETIME & GREETING CARD ────────────────────────────────── */
+#datetimeCard {
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.datetime-block { display: flex; flex-direction: column; gap: .2rem; }
+
+.date-text {
+  font-size: 1rem;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.time-text {
+  font-size: 2.8rem;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.greeting-block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: .6rem;
+}
+
+.greeting-text {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
+}
+
+.name-row {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.name-row .input { max-width: 180px; }
+
+/* ── 9. TIMER ───────────────────────────────────────────────────── */
+.timer-display {
+  font-size: 4.5rem;
+  font-weight: 800;
+  text-align: center;
+  color: var(--accent);
+  letter-spacing: -2px;
+  font-variant-numeric: tabular-nums;
+  padding: .5rem 0;
+  line-height: 1;
+  transition: color var(--transition);
+}
+
+.timer-display.running { color: var(--success); }
+.timer-display.paused  { color: var(--warning-color); }
+.timer-display.done    { color: var(--danger); }
+
+.timer-controls {
+  display: flex;
+  gap: .6rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.timer-status {
+  text-align: center;
+  font-size: .88rem;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+/* ── 10. TO-DO LIST ─────────────────────────────────────────────── */
+.todo-add-row {
+  display: flex;
+  gap: .5rem;
+  align-items: center;
+}
+
+.todo-filters {
+  display: flex;
+  gap: .4rem;
+}
+
+.filter-btn {
+  padding: .35rem .9rem;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font);
+  font-size: .82rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.filter-btn:hover { background: var(--accent-light); border-color: var(--accent); color: var(--accent); }
+.filter-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+
+/* Task list */
+.task-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.task-item {
+  display: flex;
+  align-items: center;
+  gap: .6rem;
+  padding: .75rem 1rem;
+  background: var(--bg-input);
+  border-radius: var(--radius-md);
+  border: 1.5px solid transparent;
+  transition: all var(--transition);
+  animation: slideIn .2s ease;
+}
+
+@keyframes slideIn {
+  from { opacity: 0; transform: translateY(-8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.task-item:hover { border-color: var(--accent); background: var(--bg-card-hover); }
+
+.task-item.done { opacity: .65; }
+
+/* Checkbox */
+.task-checkbox {
+  width: 1.2rem;
+  height: 1.2rem;
+  min-width: 1.2rem;
+  border-radius: 4px;
+  border: 2px solid var(--border);
+  background: var(--bg-card);
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all var(--transition);
+  position: relative;
+}
+
+.task-checkbox:checked {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+.task-checkbox:checked::after {
+  content: '✓';
+  position: absolute;
+  color: #fff;
+  font-size: .75rem;
+  font-weight: 800;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.task-checkbox:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* Task text */
+.task-text {
+  flex: 1;
+  font-size: .95rem;
+  word-break: break-word;
+  color: var(--text-primary);
+  transition: color var(--transition);
+}
+
+.task-item.done .task-text {
+  text-decoration: line-through;
+  color: var(--text-muted);
+}
+
+/* Task action buttons */
+.task-actions { display: flex; gap: .4rem; }
+
+.task-btn {
+  padding: .3rem .55rem;
+  font-size: .78rem;
+  border: none;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  font-family: var(--font);
+  font-weight: 600;
+  transition: all var(--transition);
+}
+
+.task-btn--edit   { background: var(--warning-light); color: var(--warning-color); }
+.task-btn--edit:hover   { background: var(--warning-color); color: #fff; }
+.task-btn--delete { background: var(--danger-light);  color: var(--danger); }
+.task-btn--delete:hover { background: var(--danger); color: #fff; }
+
+/* Counts & messages */
+.task-count {
+  font-size: .82rem;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.empty-message {
+  text-align: center;
+  color: var(--text-muted);
+  font-size: .9rem;
+  padding: 1.5rem 0 .5rem;
+}
+
+/* ── 11. QUICK LINKS ────────────────────────────────────────────── */
+.link-add-form {
+  display: flex;
+  flex-direction: column;
+  gap: .5rem;
+}
+
+.link-add-form .input { width: 100%; }
+
+.links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: .6rem;
+}
+
+.link-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: .4rem;
+  padding: .45rem .9rem;
+  background: var(--accent-light);
+  color: var(--accent);
+  border-radius: var(--radius-pill);
+  font-size: .85rem;
+  font-weight: 600;
+  text-decoration: none;
+  border: 1.5px solid transparent;
+  transition: all var(--transition);
+  max-width: 100%;
+}
+
+.link-chip:hover {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+  box-shadow: var(--shadow-sm);
+}
+
+.link-chip__delete {
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+  font-size: .9rem;
+  padding: 0;
+  line-height: 1;
+  opacity: .7;
+  transition: opacity var(--transition);
+}
+
+.link-chip__delete:hover { opacity: 1; }
+
+/* ── 12. WARNING / ERROR ────────────────────────────────────────── */
+.warning {
+  font-size: .85rem;
+  color: var(--danger);
+  font-weight: 600;
+  padding: .3rem 0;
+}
+
+.hidden { display: none !important; }
+
+/* ── 13. MODAL ──────────────────────────────────────────────────── */
+.modal {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, .5);
+  backdrop-filter: blur(4px);
+}
+
+.modal__box {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  padding: 2rem;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  border: 1px solid var(--border);
+  animation: popIn .15s ease;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: scale(.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.modal__title {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modal__actions {
+  display: flex;
+  gap: .6rem;
+  justify-content: flex-end;
+}
+
+/* ── 14. SCROLLBAR (webkit) ─────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: var(--radius-pill); }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+
+/* ── 15. RESPONSIVE ─────────────────────────────────────────────── */
+@media (max-width: 768px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+    gap: 1rem;
+  }
+
+  .card--wide { grid-column: span 1; }
+
+  #datetimeCard {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .greeting-block { align-items: flex-start; }
+  .greeting-text  { text-align: left; }
+
+  .time-text { font-size: 2.2rem; }
+  .timer-display { font-size: 3.5rem; }
+
+  .header { padding: .75rem 1rem; }
+}
+
+@media (max-width: 400px) {
+  .timer-display { font-size: 2.8rem; }
+  .time-text     { font-size: 1.8rem; }
+  .todo-filters  { flex-wrap: wrap; }
+}
